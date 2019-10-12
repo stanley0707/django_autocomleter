@@ -133,7 +133,6 @@ class Searcher(object):
         cls.SQL = cls.SQL.format(
                 cls.table, cls.column, cls.value, cls.limit
             )
-        print(cls.SQL)
         cls.cursor().close()
         cls.connection.commit()
         return cls.model_serializer(cls.data).data

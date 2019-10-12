@@ -15,6 +15,9 @@ Allows the use of celery, if it is in the mood. The following settings are requi
 Where:
  1. **SERILEZER_CLASSES** - indicates django_autompleter where to look for serialization ticket offices. The serialization class inherits from the base class **SearcherSerializer**. In the example below, we indicate which fields from the **Publication** model we want to return when requested.
   ```
+
+  from autocompleter import SearcherSerializer
+  
   class PublicationsSerializer(SearcherSerializer):
         class Meta:
             model = Publication
@@ -28,7 +31,7 @@ Where:
 
 example:
  ```
- from django_autocompleter import Autocomleter
+from autocompleter import Autocomleter
 
 autocomplete_coonection =  Autocomleter()
 
