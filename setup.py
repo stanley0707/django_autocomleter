@@ -6,12 +6,11 @@ NAME = "django_autocompleter"
 DESCRIPTION = ""
 AUTHOR = "Stas Shilov"
 AUTHOR_EMAIL = "shilowstanisalw@gamail.com"
-URL = "https://github.com/stanley0707/django_autocompleter.git"
+URL = "https://github.com/stanley0707/django_autocomleter.git"
 VERSION = "0.0.1"
  
 setup(
     name=NAME,
-    install_requires=open(join(dirname(__file__), 'requirements.txt')).read(),
     version=VERSION,
     description=DESCRIPTION,
     long_description=open(join(dirname(__file__), 'README.md')).read(),
