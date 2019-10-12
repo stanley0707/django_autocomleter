@@ -149,7 +149,7 @@ class Autocompleter(Searcher):
                 return  AsyncResult(str(
                             self.auctocomplete_run.delay(cls=False, table=model._meta.db_table, column=column, value=value)
                             )
-                        ).get()
+                        ).get().decode("utf-8")
             
             return  self.auctocomplete_run(cls=self, table=model._meta.db_table, column=column, value=value)
         
