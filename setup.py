@@ -11,7 +11,7 @@ VERSION = "0.0.1"
  
 setup(
     name=NAME,
-    install_requires=open(join(dirname(__file__), 'requiremets.txt')).read(),
+    install_requires=open(join(dirname(__file__), 'requirements.txt')).read(),
     version=VERSION,
     description=DESCRIPTION,
     long_description=open(join(dirname(__file__), 'README.md')).read(),
