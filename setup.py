@@ -1,17 +1,5 @@
 from os.path import join, dirname
 from setuptools import setup, find_packages
-try:
-    # for pip >= 10
-    from pip._internal.req import parse_requirements
-
-except ImportError:
-    # for pip <= 9.0.3
-    from pip import parse_requirements
-
-def load_requirements(fname):
-    reqs = parse_requirements(fname, session="test")
-    return [str(ir.req) for ir in reqs]
-
 
 PACKAGE = find_packages()
 NAME = "django_autocompleter"
@@ -23,7 +11,7 @@ VERSION = "0.0.1"
  
 setup(
     name=NAME,
-    install_requires=load_requirements("requirements.txt"),
+    install_requires=open(join(dirname(__file__), 'requiremets.txt')).read(),
     version=VERSION,
     description=DESCRIPTION,
     long_description=open(join(dirname(__file__), 'README.md')).read(),
