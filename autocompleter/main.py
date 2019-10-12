@@ -138,7 +138,7 @@ class Searcher(object):
         return cls.model_serializer(cls.data).data
 
 
-class Autocomleter(Searcher):
+class Autocompleter(Searcher):
     
     def get(self, model, column, value):
         

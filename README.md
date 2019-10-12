@@ -31,9 +31,9 @@ Where:
 
 example:
  ```
-from autocompleter import Autocomleter
+from autocompleter import Autocompleter
 
-autocomplete_coonection =  Autocomleter()
+autocomplete_coonection =  Autocompleter()
 
 result = autocomplete_coonection.get(
                 model=Publication,# search data model
