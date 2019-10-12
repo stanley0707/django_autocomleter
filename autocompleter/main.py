@@ -123,7 +123,7 @@ class Searcher(object):
     
     @static_or_class
     @shared_task
-    def auctocomplete_run(cls, table, column, value):
+    def auctocompleter_run(cls, table, column, value):
         
         if not cls:
             cls = Searcher()
@@ -147,15 +147,15 @@ class Autocompleter(Searcher):
         try:
             if settings.AUTOCOMPLETER['CELERY']:
                 return  AsyncResult(str(
-                            self.auctocomplete_run.delay(cls=False, table=model._meta.db_table, column=column, value=value)
+                            self.auctocompleter_run.delay(cls=False, table=model._meta.db_table, column=column, value=value)
                             )
-                        ).get().decode("utf-8")
+                        ).get()
             
-            return  self.auctocomplete_run(cls=self, table=model._meta.db_table, column=column, value=value)
+            return  self.auctocompleter_run(cls=self, table=model._meta.db_table, column=column, value=value)
         
         except KeyError:
             
-            return  self.auctocomplete_run(cls=self, table=model._meta.db_table, column=column, value=value)
+            return  self.auctocompleter_run(cls=self, table=model._meta.db_table, column=column, value=value)
 
         except AttributeError:
             
