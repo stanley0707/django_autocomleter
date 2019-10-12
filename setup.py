@@ -1,5 +1,12 @@
 from os.path import join, dirname
 from setuptools import setup, find_packages
+from os import path
+
+this_directory = path.abspath(path.dirname(__file__))
+
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 
 PACKAGE = find_packages()
 NAME = "django_autocompleter"
@@ -13,7 +20,8 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    long_description=open(join(dirname(__file__), 'README.md')).read(),
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     url=URL,
