@@ -1,1 +1,1 @@
-from .main import Autocomleter, SearcherSerializer
+from .main import Autocompleter, SearcherSerializer
