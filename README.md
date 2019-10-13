@@ -6,7 +6,7 @@ substring occurrence search module.
 Allows the use of celery, if it is in the mood. The following settings are required in settings.py
  ```
  AUTOCOMPLETER = {
-    'SERILEZER_CLASSES': 'your_module_name.autocomplete',
+    'SERILEZER_CLASSES': 'your_module_name.autocompleter',
     'LIMIT': 5,
     'CELERY': True
     }
@@ -27,7 +27,7 @@ Where:
                 ) 
   ```
 2. **LIMIT** - indicates the number of records received that must be returned.
-3. **CELERY** - indicates the start of the autocomputer as a celery task. It is important, in this case, your project must have celery.py settings.
+3. **CELERY** - indicates the start of the autompleter as a celery task. It is important, in this case, your project must have celery.py settings.
 
 example:
  ```
