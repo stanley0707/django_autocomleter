@@ -37,7 +37,7 @@ autocomplete_coonection =  Autocompleter()
 
 result = autocomplete_coonection.get(
                 model=Publication,# search data model
-                column="title",#column of the model to search for
+                column=["title"],# list of columns of the model to search for
                 value=value # value
             )
   ```
