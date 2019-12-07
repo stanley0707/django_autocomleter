@@ -14,7 +14,7 @@ DESCRIPTION = ""
 AUTHOR = "Stas Shilov"
 AUTHOR_EMAIL = "shilowstanisalw@gamail.com"
 URL = "https://github.com/stanley0707/django_autocomleter.git"
-VERSION = "0.0.7"
+VERSION = "0.0.8"
  
 setup(
     name=NAME,

@@ -70,9 +70,13 @@ class SearcherSerializer(object):
 
 class Searcher(object):
     
-    SQL = """SELECT * 
-                FROM {}
-                WHERE lower({}) ILIKE lower('%{}%') limit {};"""
+    SQL = None
+    
+    BASE_SQL = """
+        SELECT * FROM {} WHERE
+        """
+    
+    SQL_PATTERNS = """ lower({}) ILIKE lower('%{}%')"""
     
     def __init__(self, *args, **kwargs):
         self.connection = connection 
@@ -85,9 +89,15 @@ class Searcher(object):
         self.value = None
         self.args = args
         self.kwargs = kwargs
-    
+
+    def query_construct(self):
+        sql = ''
+        for i, val in enumerate(self.column):
+            OR = ' OR' if i > 0 else ''
+            sql += OR + self.SQL_PATTERNS.format(val, self.value)
+        return '{} {} limit {};'.format(self.BASE_SQL.format(self.table), sql, self.limit)    
+
     def dictfetchall(self, cursor):
-        
         columns = [col[0] for col in cursor.description]
         return [
             dict(zip(columns, row))
@@ -95,7 +105,6 @@ class Searcher(object):
         ]
     
     def processor(self):
-        
         cursor = self.connection.cursor()
         cursor.execute(self.SQL)
         self.data = self.dictfetchall(cursor)
@@ -104,10 +113,9 @@ class Searcher(object):
     def init_params(self, *args, **kwargs):
         try:
             self.limit = settings.AUTOCOMPLETER['LIMIT']
-            self.table = re.sub('[!@#$)(;:]', '', kwargs['table'])
-            self.column = re.sub('[!@#$)(;:]', '', kwargs['column'])
-            self.value = re.sub('[!@#$)(;:]', '', kwargs['value'])
-            
+            self.table = re.sub('[!@#$)(;:]' , '', kwargs['table'])
+            self.column = [re.sub('[!@#$)(;:]', '', i) for i in kwargs['column']]
+            self.value = re.sub('[!#$)(;:]', '', kwargs['value'].replace(" ", "").lower())
             for name, obj in inspect.getmembers(sys.modules[
                     settings.AUTOCOMPLETER['SERILEZER_CLASSES']]):
                 try:
@@ -117,22 +125,16 @@ class Searcher(object):
                 
                 except AttributeError:
                     pass
-        
         except KeyError:
             pass
     
     @static_or_class
     @shared_task
     def auctocompleter_run(cls, table, column, value):
-        
         if not cls:
             cls = Searcher()
-        
         cls.init_params(table=table, column=column, value=value)
-
-        cls.SQL = cls.SQL.format(
-                cls.table, cls.column, cls.value, cls.limit
-            )
+        cls.SQL = cls.query_construct() 
         cls.cursor().close()
         cls.connection.commit()
         return cls.model_serializer(cls.data).data
@@ -141,9 +143,7 @@ class Searcher(object):
 class Autocompleter(Searcher):
     
     def get(self, model, column, value):
-        
         model = model()
-        
         try:
             if settings.AUTOCOMPLETER['CELERY']:
                 return  AsyncResult(str(
